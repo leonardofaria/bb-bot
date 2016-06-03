@@ -32,9 +32,10 @@ mechanize = Mechanize.new{|a| a.ssl_version, a.verify_mode = 'SSLv3', OpenSSL::S
 page = mechanize.get(url)
 
 body = Nokogiri::HTML(page.body)
-rows = body.xpath("//table[contains(concat(' ', @class, ' '), ' tb_accordion ')]")[1].css("tbody tr")
+rows = body.xpath("//table[contains(concat(' ', @class, ' '), ' table-bordered ')]")[1].css("tbody tr")
+rows2 = body.xpath("//table[contains(concat(' ', @class, ' '), ' table-bordered ')]")[3].css("tbody tr")
 
-investiments = [rows[1], rows[2], rows[3], rows[5], rows[7], rows[9], rows[10], rows[11]]
+investiments = [rows[1], rows[5], rows2[1], rows2[5], rows2[15], rows2[17]]
 investiments_table = []
 
 investiments.each do |investiment|
@@ -55,6 +56,7 @@ content = Terminal::Table.new(
 	rows: investiments_table
 )
 
+puts rows2.size
 puts content
 
 output = "<div style='display: none; white-space: nowrap; line-height: 0; color: #ffffff;'>+----------------------+-------+--------+--------------+--------+----------+----------+----------+</div><pre>#{content}</pre>"
